@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="PopupPage.AppSnackBarPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:PopupPage"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:PopupPage"
+    BackgroundColor="Transparent"
+    Margin="0,0,0,5"
+    Padding="0"
+    x:DataType="views:AppSnackBarPage"
+    BindingContext="{Binding Source={RelativeSource Self}, x:DataType=views:AppSnackBarPage}"
+    HorizontalOptions="Fill"
+    VerticalOptions="End">
+    <Border Padding="5" StrokeShape="RoundRectangle 10"
+            BackgroundColor="{AppThemeBinding Light={StaticResource LightRed}, Dark={StaticResource DarkRed}}" VerticalOptions="End">
+        <Label Text="{Binding Text}" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" HorizontalOptions="Center"/>
+    </Border>
+</toolkit:Popup>

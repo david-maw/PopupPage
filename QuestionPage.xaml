@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="PopupPage.QuestionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:PopupPage"
+    BindingContext="{Binding Source={RelativeSource Self}, x:DataType=views:QuestionPage}"
+    BackgroundColor="Transparent"
+    Padding="0"
+    Margin="0"
+    x:DataType="views:QuestionPage"
+    x:TypeArguments="views:QuestionResponse">
+    <toolkit:Popup.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="Not" />
+        </ResourceDictionary>
+    </toolkit:Popup.Resources>
+    <Border
+        Padding="10"
+        BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                          Dark={StaticResource Gray900}}"
+        HorizontalOptions="Center"
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="2">
+        <VerticalStackLayout Spacing="10" VerticalOptions="Center">
+            <Label
+                FontSize="Large"
+                HorizontalOptions="Center"
+                Text="{Binding Title}" />
+            <Label Text="{Binding Text}" />
+            <RadioButton
+                Margin="7,10,0,0"
+                Content="Yes"
+                IsChecked="{Binding Yes}" />
+            <RadioButton 
+                Margin="7,-10,0,0"
+                Content="No"
+                IsChecked="{Binding Yes, Converter={StaticResource Not}}" />
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding AskAgain, Converter={StaticResource Not}}" />
+                <Label Text="Do not ask again" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <Button
+                Clicked="Button_Clicked"
+                HorizontalOptions="Center"
+                Text="Done" />
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>
