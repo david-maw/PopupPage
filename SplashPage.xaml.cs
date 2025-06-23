@@ -28,7 +28,7 @@ public partial class SplashPage : ContentPage
     {
         Debug.WriteLine(">>> SplashPage: SimulatedInitialization() - Start");
 
-        // await Task.Delay(50); // Without this delay the popup will not show
+        await Task.Delay(50); // Without this delay the popup will not show
 
         await this.ShowPopupAsync(new Label
         {
