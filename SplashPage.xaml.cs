@@ -5,30 +5,47 @@ namespace PopupPage;
 
 public partial class SplashPage : ContentPage
 {
-    public SplashPage() => InitializeComponent();
-
-    private bool initializationCalled = false;
-    private int nesting = 0;
-    protected override async void OnAppearing()
+    public SplashPage()
     {
-        int myNesting = nesting++;
+        InitializeComponent();
+        this.Loaded += SplashPage_Loaded;
+    }
+
+    private int splashNesting = 0;
+    private async void SplashPage_Loaded(object sender, EventArgs e)
+    {
+        int myNesting = splashNesting++;
+        Debug.WriteLine($">>> SplashPage: SplashPage_Loaded() - Start level {myNesting}");
+        base.OnAppearing();
+        await SimulatedInitialization();
+        splashNesting--;
+        Debug.WriteLine($">>> SplashPage: SplashPage_Loaded() - End level {myNesting}");
+        await Shell.Current.GoToAsync("//MainPage"); // Lets the user know this is finished
+    }
+
+    private int appearingNesting = 0;
+    protected override void OnAppearing()
+    {
+        int myNesting = appearingNesting++;
         Debug.WriteLine($">>> SplashPage: OnAppearing() - Start level {myNesting}");
         base.OnAppearing();
-
-        if (!initializationCalled)
-        {
-            initializationCalled = true;
-            await SimulatedInitialization();
-        }
-        nesting--;
-        Debug.WriteLine($">>> SplashPage: OnAppearing() - End level {nesting}");
-        await Shell.Current.GoToAsync("//MainPage"); // Lets the user know this is finished
+        appearingNesting--;
+        Debug.WriteLine($">>> SplashPage: OnAppearing() - End level {myNesting}");
+    }
+    private int navigatedToNesting = 0;
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        int myNesting = navigatedToNesting++;
+        Debug.WriteLine($">>> SplashPage: OnNavigatedTo() - Start level {myNesting}");
+        base.OnNavigatedTo(args);
+        navigatedToNesting--;
+        Debug.WriteLine($">>> SplashPage: OnNavigatedTo() - End level {myNesting}");
     }
     private async Task SimulatedInitialization()
     {
         Debug.WriteLine(">>> SplashPage: SimulatedInitialization() - Start");
 
-        await Task.Delay(50); // Without this delay the popup will not show
+        //await Task.Delay(100); // Without this delay the popup will not show
 
         await this.ShowPopupAsync(new Label
         {

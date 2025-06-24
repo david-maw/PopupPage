@@ -2,12 +2,35 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using Microsoft.Maui.Controls.Shapes;
+using System.Diagnostics;
 
 namespace PopupPage
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage() => InitializeComponent();
+        public MainPage()
+        {
+            InitializeComponent();
+            Loaded += MainPage_Loaded;
+        }
+        private int loadedNesting = 0;
+        private readonly bool splashed = false; // Has automatic navigation to the splash page been done yet?
+        private async void MainPage_Loaded(object sender, EventArgs e)
+        {
+            int myNesting = loadedNesting++;
+            Debug.WriteLine($">>> MainPage_Loaded - Start level {myNesting}");
+            if (splashed)
+            {
+                IsVisible = true;
+            }
+            else
+            {
+                IsVisible = false;
+                //await Task.Delay(50); // Let pending navigations settle down, without this the following navigation will throw an exception
+                await Shell.Current.GoToAsync("//SplashPage"); // Navigate to the splash page 
+            }
+            loadedNesting--;
+        }
         #region Utility Functions
         internal static PopupOptions GetNullPopupOptions(bool CanBeDismissedByTappingOutsideOfPopup = true) => new()
         {
@@ -16,21 +39,14 @@ namespace PopupPage
             Shadow = null
         };
         #endregion
-        private bool splashed = false; // Has automatic navigation to the splash page been done yet?
-        protected override async void OnAppearing()
+        private int appearingNesting = 0;
+        protected override void OnAppearing()
         {
+            int myNesting = appearingNesting++;
+            Debug.WriteLine($">>> MainPage.OnAppearing() - Start level {myNesting}");
             base.OnAppearing();
-            if (!splashed)
-            {
-                splashed = true;
-                IsVisible = true; // Hide the main page while we show the splash page
-                await Task.Delay(50); // Let pending navigations settle down, without this the following navigation will throw an exception
-                await Shell.Current.GoToAsync("//SplashPage"); // Navigate to the splash page
-            }
-            else
-            {
-                IsVisible = true; // Show the main page again
-            }
+            Debug.WriteLine($">>> MainPage.OnAppearing() - End level {myNesting}");
+            appearingNesting--;
         }
         #region Allow light/dark mode switching
         public bool Dark
