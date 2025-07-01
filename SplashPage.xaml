@@ -3,10 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PopupPage.SplashPage"
              Title="SplashPage">
-    <VerticalStackLayout>
         <Label 
-            Text="Splashing"
-            VerticalOptions="Start" 
+            Text="This should be covered by a popup"
+            VerticalOptions="Center" 
             HorizontalOptions="Center" />
-    </VerticalStackLayout>
 </ContentPage>
