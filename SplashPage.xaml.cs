@@ -16,7 +16,6 @@ public partial class SplashPage : ContentPage
     {
         int myNesting = splashNesting++;
         Debug.WriteLine($">>> SplashPage.SplashPage_Loaded() - Start level {myNesting}");
-        base.OnAppearing();
         await SimulatedInitialization();
         splashNesting--;
         Debug.WriteLine($">>> SplashPage.SplashPage_Loaded() - End level {myNesting}");
@@ -28,7 +27,7 @@ public partial class SplashPage : ContentPage
     {
         Debug.WriteLine(">>> SplashPage.SimulatedInitialization() - Start");
 
-        //await Task.Delay(100); // Without this delay the popup will not show
+        //await Task.Yield(); // Yield to allow the UI to update, without this the popup will not show up on Windows
 
         await this.ShowPopupAsync(new Label
         {
