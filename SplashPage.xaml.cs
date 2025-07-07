@@ -27,7 +27,7 @@ public partial class SplashPage : ContentPage
     {
         Debug.WriteLine(">>> SplashPage.SimulatedInitialization() - Start");
 
-        //await Task.Yield(); // Yield to allow the UI to update, without this the popup will not show up on Windows
+        await Task.Yield(); // Yield to allow the UI to update, without this the popup will not show up on Windows
 
         await this.ShowPopupAsync(new Label
         {
